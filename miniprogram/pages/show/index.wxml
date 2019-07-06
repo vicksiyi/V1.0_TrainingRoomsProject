@@ -1,0 +1,5 @@
+<view class='bg'>
+  <view class='fonts'>实训室</view>
+  <view class='fonts line'></view>
+  <view class='fonts name'>{{timeName}},{{name}}</view>
+</view>

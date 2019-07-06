@@ -1,0 +1,11 @@
+<template name="tab1">
+  <i-button bind:click="sign" type="primary">今日签到</i-button>
+  <i-message id="message" />
+  <!-- 使用教程 -->
+</template>
+<template name="tab2">
+
+</template>
+<template name="tab3">
+
+</template>

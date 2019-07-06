@@ -1,0 +1,8 @@
+<i-panel>
+  <i-input bind:change="changeName" name="name" title="姓名" autofocus placeholder="姓名" />
+  <i-input bind:change="changeNameQ"  title="确认姓名"  placeholder="确认姓名" />
+  <i-input  disabled value='{{id}}' title="ID"/>
+  <i-button type="ghost" bind:click="formSubmit" type="primary">注册</i-button>
+  <i-spin size="large" fix wx:if="{{ spinShow }}"></i-spin>
+  <i-message id="message" />
+</i-panel>

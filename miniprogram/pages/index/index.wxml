@@ -1,0 +1,23 @@
+< import src="../../template/tab.wxml" />
+<!-- 通知 -->
+<i-notice-bar icon="systemprompt" loop>
+  这是一些信息的通知！！！
+</i-notice-bar>
+<!-- 选择 -->
+<i-tabs current="{{ current }}" bindchange="handleChange">
+  <i-tab key="tab1" title="签到"></i-tab>
+  <i-tab key="tab2" title="通知"></i-tab>
+  <i-tab key="tab3" title="数据"></i-tab>
+</i-tabs>
+<!-- 相应的组件 -->
+<view>
+  <view wx:if="{{current == 'tab1'}}">
+    <template is="tab1"></template>
+  </view>
+  <view wx:if="{{current == 'tab2'}}">
+    <template is="tab2" data="{{notice,openid,load,visible2,actions2,notice2}}"></template>
+  </view>
+  <view wx:if="{{current == 'tab3'}}">
+    <template is="tab3" data="{{notice,openid,load,visible2,actions2,notice2}}"></template>
+  </view>
+</view>
