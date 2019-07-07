@@ -1,4 +1,5 @@
 const time = require('../../utils/time.js');
+const nav = require('../../utils/navigateto.js');
 Page({
 
   /**
@@ -35,21 +36,15 @@ Page({
     wx.getStorage({
       key: 'name',
       success(res) {
-        console.log('成功',res);
         _this.setData({
           name: res.data
         })
         setTimeout(() => {
-          wx.navigateTo({
-            url: '../../pages/index/index'
-          })
+          nav.index();
         }, 2000)
       },
-      fail(e) {
-        console.log('失败');
-        wx.navigateTo({
-          url: '../../pages/login/index'
-        })
+      fail() {
+        nav.login();
       }
     })
   }

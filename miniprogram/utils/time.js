@@ -16,8 +16,8 @@ const formatTimeMM = date => {
   const hour = date.getHours()
   const minute = date.getMinutes()
   const second = date.getSeconds()
-
-  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+  const mday = date.getDay()
+  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour] + ' ' + [mday] 
 }
 
 const formatNumber = n => {

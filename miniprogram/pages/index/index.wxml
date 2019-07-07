@@ -18,6 +18,6 @@
     <template is="tab2" data="{{notice,openid,load,visible2,actions2,notice2}}"></template>
   </view>
   <view wx:if="{{current == 'tab3'}}">
-    <template is="tab3" data="{{notice,openid,load,visible2,actions2,notice2}}"></template>
+    <template is="tab3" data=""></template>
   </view>
 </view>

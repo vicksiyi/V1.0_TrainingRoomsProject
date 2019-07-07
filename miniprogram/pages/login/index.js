@@ -1,7 +1,6 @@
-const {
-  $Message
-} = require('../../dist/base/index');
 const time = require('../../utils/time.js')
+const nav = require('../../utils/navigateto.js')
+const stor = require('../../utils/storage.js')
 Page({
 
   /**
@@ -10,7 +9,7 @@ Page({
   data: {
     name: '',
     id: '',
-    nameQ:''
+    nameQ: ''
   },
 
   /**
@@ -21,9 +20,7 @@ Page({
     _this.setData({
       spinShow: true
     })
-    $Message({
-      content: '初次进入系统得先签到'
-    });
+    nav.message('初次进入系统得先签到', '')
     wx.cloud.callFunction({
       name: 'login',
       complete: res => {
@@ -48,20 +45,14 @@ Page({
       nameQ: res.detail.detail.value
     })
   },
-  formSubmit: time.throttle( function() {
+  formSubmit: time.throttle(function() {
     let _this = this;
     const db = wx.cloud.database()
     if (_this.data.name == '') {
-      $Message({
-        content: '姓名不能为空!!!',
-        type: 'error'
-      });
-    } else if (_this.data.name != _this.data.nameQ){
-      $Message({
-        content: '请再次确认姓名',
-        type: 'error'
-      });
-    }else {
+      nav.message('姓名不能为空!!!', 'error')
+    } else if (_this.data.name != _this.data.nameQ) {
+      nav.message('请再次确认姓名', 'error')
+    } else {
       wx.setStorage({
         key: "name",
         data: _this.data.name
@@ -77,10 +68,8 @@ Page({
           }
         })
         .then(res => {
-          wx.navigateTo({
-            url: '../../pages/show/index',
-          })
+          nav.show();
         })
     }
-  },4000)
+  }, 4000)
 })

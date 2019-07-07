@@ -8,6 +8,7 @@
     "i-spin": "../../dist/spin/index",
     "i-message": "../../dist/message/index",
     "i-action-sheet": "../../dist/action-sheet/index",
-    "i-badge": "../../dist/badge/index"
+    "i-badge": "../../dist/badge/index",
+    "ec-canvas": "../../ec-canvas/ec-canvas"
   }
 }
