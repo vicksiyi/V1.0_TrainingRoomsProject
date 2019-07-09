@@ -11,7 +11,7 @@ App({
     }
 
     this.globalData = {
-      wifiBssid: '' //实训室wifi
+      wifiBssid: 'f4:83:cd:53:93:la' //实训室wifi
     }
 
     this.click = [{

@@ -2,7 +2,7 @@
   <i-button bind:click="toggleLeft2" type="primary">{{item.name}}</i-button>
   <i-drawer mode="left" visible="{{showLeft2}}" mask-closable="{{false}}">
     <view class="demo-container">
-      <i-panel title="group-水果">
+      <i-panel >
         <i-checkbox-group current="{{current}}" bindchange="handleFruitChange">
           <i-checkbox wx:for="{{fruit}}" position="{{position}}" wx:key="{{item.id}}" value="{{item.name}}">
           </i-checkbox>

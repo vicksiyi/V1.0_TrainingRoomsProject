@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+   "i-message": "../../dist/message/index",
+   "ec-canvas": "../../ec-canvas/ec-canvas"
+  }
+}
