@@ -1,0 +1,16 @@
+<view wx:for="{{adminUser}}">
+  <i-button bind:click="toggleLeft2" type="primary">{{item.name}}</i-button>
+  <i-drawer mode="left" visible="{{showLeft2}}" mask-closable="{{false}}">
+    <view class="demo-container">
+      <i-panel title="group-水果">
+        <i-checkbox-group current="{{current}}" bindchange="handleFruitChange">
+          <i-checkbox wx:for="{{fruit}}" position="{{position}}" wx:key="{{item.id}}" value="{{item.name}}">
+          </i-checkbox>
+        </i-checkbox-group>
+      </i-panel>
+      <i-button bind:click="toggleLeft2" type="primary">添加为管理员</i-button>
+      <i-button bind:click="toggleLeft2" type="primary">拒绝此申请</i-button>
+    </view>
+  </i-drawer>
+</view>
+<i-message id="message" />

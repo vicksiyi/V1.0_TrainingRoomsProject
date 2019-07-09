@@ -1,0 +1,3 @@
+<view wx:for="click">
+  <i-button type="primary" bind:click="{{item.event}}">{{item.name}}</i-button>
+</view>

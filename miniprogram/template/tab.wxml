@@ -1,5 +1,11 @@
 <template name="tab1">
   <i-button bind:click="sign" type="primary">今日签到</i-button>
+  <view wx:if="{{!admin}}">
+    <i-button bind:click="adminLogin" type="primary">管理员登录</i-button>
+  </view>
+  <view wx:else>
+    <i-button bind:click="adminApply" type="primary">申请管理员</i-button>
+  </view>
   <i-message id="message" />
   <!-- 使用教程 -->
 </template>
@@ -7,5 +13,5 @@
 
 </template>
 <template name="tab3">
-  
+
 </template>

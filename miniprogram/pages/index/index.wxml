@@ -12,7 +12,7 @@
 <!-- 相应的组件 -->
 <view>
   <view wx:if="{{current == 'tab1'}}">
-    <template is="tab1"></template>
+    <template is="tab1" data="{{admin}}"></template>
   </view>
   <view wx:if="{{current == 'tab2'}}">
     <template is="tab2" data="{{notice,openid,load,visible2,actions2,notice2}}"></template>

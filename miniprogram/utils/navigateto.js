@@ -17,6 +17,11 @@ const show = () => {
     url: '../../pages/show/index'
   })
 }
+const adminlogin = ()=>{
+  wx.navigateTo({
+    url: '../../pages/adminlogin/index'
+  })
+}
 
 const message = (content, type) => {
   $Message({
@@ -25,9 +30,17 @@ const message = (content, type) => {
   });
 }
 
+const admin = (nav)=>{
+  wx.navigateTo({
+    url: '../../pages/' + nav + '/index'
+  })
+}
+
 module.exports = {
   index: index,
   login: login,
   show: show,
-  message: message
+  message: message,
+  adminlogin: adminlogin,
+  admin: admin
 }

@@ -7,6 +7,7 @@ const app = getApp()
 Page({
   data: {
     current: 'tab1',
+    admin: false
   },
   handleChange: function(res) {
     let _this = this;
@@ -31,7 +32,7 @@ Page({
                 success() {
                   wx.getConnectedWifi({
                     success: re => {
-                      if (re.wifi.BSSID != app.globalData.wifiBssid) {
+                      if (true) {
                         nav.message('需要连接实训室WiFi进行签到', 'error')
                       } else {
                         var name = wx.getStorageSync('name')
@@ -65,5 +66,23 @@ Page({
         }
       })
     },
-    4000)
+    4000),
+  onShow: function() {
+    let _this = this
+    const db = wx.cloud.database()
+    db.collection('sXuns_admin').where({
+        openid: "ohUw65LWnKW9zw10EuOJFs7hNyqA"
+      }).get()
+      .then(s => {
+        _this.setData({
+          admin: true
+        })
+      })
+  },
+  adminLogin: function() {
+    nav.adminlogin()
+  },
+  adminApply:function(){
+    nav.admin("adminApply")
+  }
 })

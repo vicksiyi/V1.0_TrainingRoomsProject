@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "i-drawer": "../../dist/drawer/index",
+    "i-message": "../../dist/message/index",
+    "i-button": "../../dist/button/index",
+    "i-checkbox-group": "../../dist/checkbox-group/index",
+    "i-checkbox": "../../dist/checkbox/index"
+  },
+  "navigationBarTitleText": "权限管理"
+}

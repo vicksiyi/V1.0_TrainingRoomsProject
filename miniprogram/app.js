@@ -11,7 +11,24 @@ App({
     }
 
     this.globalData = {
-      wifiBssid: 'f4:83:cd:53:93:1a' //实训室wifi
+      wifiBssid: '' //实训室wifi
     }
+
+    this.click = [{
+        id: 1,
+        name: "添加管理员",
+        event: "addAdmin"
+      },
+      {
+        id: 2,
+        name: "今天已签到人员",
+        event: "signUser"
+      },
+      {
+        id: 3,
+        name: "设置签到WIFI BSSID",
+        event: "setBssid"
+      }
+    ]
   }
 })
