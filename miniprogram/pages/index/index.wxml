@@ -18,7 +18,7 @@
       <template is="tab4" data="{{openid,nickName,avatarUrl}}"></template>
     </swiper-item>
 </swiper>
-
+<i-spin size="large" fix wx:if="{{ spinShow }}"></i-spin>
 <view class="footer">
   <i-tab-bar current="{{ current }}" color="#2d8cf0" bindchange="handleChange">
     <i-tab-bar-item key="homepage" icon="homepage" current-icon="homepage_fill" title="签到"></i-tab-bar-item>

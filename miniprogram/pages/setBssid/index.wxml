@@ -1,2 +1,15 @@
-<!--pages/setBssid/index.wxml-->
-<text>pages/setBssid/index.wxml</text>
+< import src="../../template/tab.wxml" />
+<i-tabs current="{{ current }}" bindchange="handleChange">
+    <i-tab key="tab1" title="自动添加"></i-tab>
+    <i-tab key="tab2" title="手动添加"></i-tab>
+</i-tabs>
+
+<swiper  indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" bindchange="bindChange" current="{{currentItem}}">
+    <swiper-item item-id="tab1">
+      <template is="BssidTab1" data="{{bssid,ssid,showSelectBssid,loadBssid}}"></template>
+    </swiper-item>
+    <swiper-item item-id="tab2">
+      <template is="BssidTab2" data=""></template>
+    </swiper-item>
+</swiper>
+

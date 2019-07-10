@@ -1,6 +1,7 @@
 const time = require('../../utils/time.js')
 const nav = require('../../utils/navigateto.js')
 const stor = require('../../utils/storage.js')
+const ckWifi = require('../../utils/checkWifi.js')
 const app = getApp()
 
 
@@ -15,7 +16,7 @@ Page({
     height: '',
     openid: '',
     avatarUrl: '',
-
+    spinShow: false
   },
   handleChange: function(res) {
     let _this = this;
@@ -38,42 +39,108 @@ Page({
   },
   sign: time.throttle(function(res) {
       let _this = this;
+      let signTemp = false;
       const db = wx.cloud.database()
       db.collection('sXuns_sign').where({
-        _openid: _this.data.openid,
-        time: time.formatTimeMM(new Date)
+        _openid: _this.data.openid
       }).get().then(res => {
-        if (res.data.length != 0) {
-          nav.message('今天已经签到!!!', 'error')
-        } else if (res.data[0].time.split(" ")[0] == time.formatTimeMM(new Date).split(" ")[0]) {
-          nav.message('今天已经签到!!!', 'error')
+        if (res.data.length) {
+          _this.setData({
+            spinShow: true
+          })
+          for (let i = 0; i < res.data.length; i++) {
+            if (res.data[i].time.split(" ")[0] == time.formatTimeMM(new Date).split(" ")[0]) {
+              signTemp = true;
+              break;
+            }
+          }
+          if (signTemp) {
+            nav.message("今天已签到!", "error")
+          } else {
+            wx.startWifi({
+              success() {
+                wx.getConnectedWifi({
+                  success: re => {
+                    let bssidTemp = false
+                    db.collection("sXuns_bssid").get({
+                      success(all) {
+                        for (let i = 0; i < all.data.length; i++) {
+                          if (re.wifi.BSSID == all.data[i].bssid) {
+                            bssidTemp = true
+                          }
+                        }
+                        if (!bssidTemp) {
+                          nav.message('需要连接实训室WiFi进行签到', 'error')
+                        } else {
+                          var name = wx.getStorageSync('name')
+                          if (name) {
+                            db.collection('sXuns_sign').add({
+                                data: {
+                                  name: name,
+                                  openid: _this.data.openid,
+                                  time: time.formatTimeMM(new Date)
+                                }
+                              })
+                              .then(s => {
+                                nav.message('签到成功', 'success')
+                              })
+                            // .then(s=>{
+                            //   console.log("成功")
+                            // })
+                          } else {
+                            nav.login();
+                          }
+                        }
+                      }
+                    })
+                  },
+                  fail() {
+                    nav.message('未连接WiFi', 'error')
+                  }
+                })
+              }
+            })
+          }
+          _this.setData({
+            spinShow: false
+          })
         } else {
           wx.startWifi({
             success() {
               wx.getConnectedWifi({
                 success: re => {
-                  if (re.wifi.BSSID == app.globalData.wifiBssid) {
-                    nav.message('需要连接实训室WiFi进行签到', 'error')
-                  } else {
-                    var name = wx.getStorageSync('name')
-                    if (name) {
-                      db.collection('sXuns_sign').add({
-                          data: {
-                            name: name,
-                            openid: _this.data.openid,
-                            time: time.formatTimeMM(new Date)
-                          }
-                        })
-                        .then(s => {
-                          nav.message('签到成功', 'success')
-                        })
-                        // .then(s=>{
-                        //   console.log("成功")
-                        // })
-                    } else {
-                      nav.login();
+                  let bssidTemp = false
+                  db.collection("sXuns_bssid").get({
+                    success(all) {
+                      for (let i = 0; i < all.data.length; i++) {
+                        if (re.wifi.BSSID == all.data[i].bssid) {
+                          bssidTemp = true
+                        }
+                      }
+                      if (bssidTemp) {
+                        nav.message('需要连接实训室WiFi进行签到', 'error')
+                      } else {
+                        var name = wx.getStorageSync('name')
+                        if (name) {
+                          db.collection('sXuns_sign').add({
+                              data: {
+                                name: name,
+                                openid: _this.data.openid,
+                                time: time.formatTimeMM(new Date)
+                              }
+                            })
+                            .then(s => {
+                              nav.message('签到成功', 'success')
+                            })
+                          // .then(s=>{
+                          //   console.log("成功")
+                          // })
+                        } else {
+                          nav.login();
+                        }
+                      }
                     }
-                  }
+                  })
                 },
                 fail() {
                   nav.message('未连接WiFi', 'error')
@@ -154,6 +221,16 @@ Page({
       data: _this.data.openid,
       success(res) {
         nav.message('复制成功', 'success')
+      }
+    })
+  },
+  temp: function() {
+    wx.clearStorage({
+      success() {
+        nav.message('清缓存成功', 'success')
+      },
+      fail() {
+        nav.message('清缓存失败', 'error')
       }
     })
   }

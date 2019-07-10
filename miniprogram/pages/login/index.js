@@ -61,15 +61,28 @@ Page({
         key: "openid",
         data: _this.data.id
       })
-      db.collection('sXuns_name').add({
-          data: {
-            name: _this.data.name,
-            id: _this.data.id
+      db.collection('sXuns_name').where({
+        name: _this.data.name
+      }).get({
+        success(res) {
+          if (res.data.length) {
+            nav.message("已存在该账号")
+            setTimeout(() => {
+              nav.show();
+            }, 1000)
+          } else {
+            db.collection('sXuns_name').add({
+                data: {
+                  name: _this.data.name,
+                  id: _this.data.id
+                }
+              })
+              .then(res => {
+                nav.show();
+              })
           }
-        })
-        .then(res => {
-          nav.show();
-        })
+        }
+      })
     }
   }, 4000)
 })

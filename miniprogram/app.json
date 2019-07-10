@@ -1,14 +1,14 @@
 {
   "pages": [
+    "pages/index/index",
     "pages/show/index",
     "pages/addAdmin/index",
     "pages/adminApply/index",
     "pages/login/index",
     "pages/getUser/index",
-    "pages/index/index",
     "pages/adminlogin/index",
-    "pages/signUser/index",
-    "pages/setBssid/index"
+    "pages/setBssid/index",
+    "pages/signUser/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
