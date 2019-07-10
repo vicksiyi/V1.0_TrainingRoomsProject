@@ -8,6 +8,9 @@
     "i-cell": "../../dist/cell/index",
     "i-tag": "../../dist/tag/index",
     "i-card": "../../dist/card/index",
-    "i-load-more": "../../dist/load-more/index"
+    "i-load-more": "../../dist/load-more/index",
+    "i-action-sheet": "../../dist/action-sheet/index",
+    "i-modal": "../../dist/modal/index",
+    "i-input": "../../dist/input/index"
   }
 }

@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/index/index",
     "pages/show/index",
     "pages/addAdmin/index",
     "pages/adminApply/index",
@@ -8,6 +7,7 @@
     "pages/getUser/index",
     "pages/adminlogin/index",
     "pages/setBssid/index",
+    "pages/index/index",
     "pages/signUser/index"
   ],
   "window": {

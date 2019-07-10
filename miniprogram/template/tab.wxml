@@ -43,22 +43,63 @@
 
 
 <template name="BssidTab1">
-  <i-button bind:click="getBssid" type="primary">获取Bssid</i-button>
-  <view class='BssidTab1' wx:if="{{showSelectBssid}}">
-    <view class='BssidTabtitle' style='width:80%;'>
-      <view class='fontBs'>BSSID:{{bssid}}</view>
-      <view class='fontBs'>名称:{{ssid}}</view>
+  <view class='swiperA'>
+    <i-button bind:click="getBssid" type="primary">获取Bssid</i-button>
+    <view class='BssidTab1' wx:if="{{showSelectBssid}}">
+      <view class='BssidTabtitle' style='width:80%;'>
+        <view class='fontBs'>BSSID:{{bssid}}</view>
+        <view class='fontBs'>名称:{{ssid}}</view>
+      </view>
+      <view style='width:20%;margin-top:21px;' bindtap='addBssid'>
+        <i-tag class="i-tags" name="标签一" color="blue">
+          添加BSSID
+        </i-tag>
+      </view>
     </view>
-    <view style='width:20%;margin-top:21px;' bindtap='addBssid'>
-      <i-tag class="i-tags" name="标签一" color="blue">
-        添加BSSID
-      </i-tag>
-    </view>
+    <i-load-more wx:if="{{loadBssid}}" />
+    <i-message id="message" />
   </view>
-  <i-load-more wx:if="{{loadBssid}}" />
-  <i-message id="message" />
 </template>
 
 <template name="BssidTab2">
-  <view>tab2</view>
+  <view class='swiperA'>tab2</view>
+</template>
+
+<template name="BssidTab3">
+  <view  class='swiperA'>
+    <view class="table">
+      <view class="tr bg-w">
+        <view class="th th1">序号</view>
+        <view class="th">名称</view>
+        <view class="th ">BSSID</view>
+      </view>
+      <block wx:for="{{listData}}" wx:key="{{code}}">
+        <view class="tr bg-g" bindtap="actionBssid" data-Id='{{index}}' wx:if="{{index % 2 == 0}}">
+          <view class="td td1">
+            <i-tag wx:if="{{item.noteBssid ? true:false}}" class="i-tags" name="标签一" color="yellow">
+              {{item.noteBssid}}
+            </i-tag>
+            <text wx:else>{{index+1}}</text>
+          </view>
+          <view class="td">{{item.ssid}}</view>
+          <view class="td">{{item.bssid}}</view>
+        </view>
+        <view class="tr" bindtap="actionBssid" data-Id='{{index}}' wx:else>
+          <view class="td td1">
+            <i-tag wx:if="{{item.noteBssid ? true:false}}" class="i-tags" name="标签一" color="yellow">
+              {{item.noteBssid}}
+            </i-tag>
+            <text wx:else>{{index+1}}</text>
+          </view>
+          <view class="td">{{item.ssid}}</view>
+          <view class="td">{{item.bssid}}</view>
+        </view>
+      </block>
+    </view>
+    <i-action-sheet visible="{{ visible1 }}" actions="{{ actions1 }}" show-cancel bind:cancel="handleCancel1" bind:click="handleClickItem1" />
+    <i-modal title="备注" visible="{{ note }}" bind:ok="noteBssidCng" bind:cancel="handleClose1">
+      <i-input placeholder="请输入你的备注" bind:change="noteBssidchang" />
+    </i-modal>
+    <i-message id="message" />
+  </view>
 </template>

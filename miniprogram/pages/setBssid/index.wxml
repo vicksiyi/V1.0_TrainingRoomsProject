@@ -2,14 +2,18 @@
 <i-tabs current="{{ current }}" bindchange="handleChange">
     <i-tab key="tab1" title="自动添加"></i-tab>
     <i-tab key="tab2" title="手动添加"></i-tab>
+    <i-tab key="tab3" title="查看所有"></i-tab>
 </i-tabs>
 
-<swiper  indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" bindchange="bindChange" current="{{currentItem}}">
+<swiper style='width:100%;height:{{height}}px;'  indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" bindchange="bindChange" current="{{currentItem}}">
     <swiper-item item-id="tab1">
       <template is="BssidTab1" data="{{bssid,ssid,showSelectBssid,loadBssid}}"></template>
     </swiper-item>
     <swiper-item item-id="tab2">
       <template is="BssidTab2" data=""></template>
+    </swiper-item>
+    <swiper-item item-id="tab3">
+      <template is="BssidTab3" data="{{listData,visible1,actions1,note,noteBssidChangeString}}"></template>
     </swiper-item>
 </swiper>
 
