@@ -2,6 +2,7 @@
   "usingComponents": {
     "i-modal": "../../dist/modal/index",
     "i-button": "../../dist/button/index",
-    "i-message": "../../dist/message/index"
+    "i-message": "../../dist/message/index",
+    "i-spin": "../../dist/spin/index"
   }
 }

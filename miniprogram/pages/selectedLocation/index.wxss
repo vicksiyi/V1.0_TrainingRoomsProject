@@ -26,6 +26,7 @@
 .view-all {
   display: flex;
   flex-direction: row;
+  
 }
 
 .view-price-column {
@@ -49,11 +50,17 @@
   color: #fff;
 }
 
-.door {
+.view-price-column-num:last-child{
   height: 40rpx;
-  color: #666;
   line-height: 30rpx;
+  font-size: 20rpx;
+  border: #dcdcdc solid 1rpx;
+  width: 148rpx;
+  text-align: center;
+  display: flex;
+   color: #666;
 }
+
 
 .view-up-seat {
   margin: 0 auto;

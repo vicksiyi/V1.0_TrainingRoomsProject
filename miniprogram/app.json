@@ -1,9 +1,9 @@
 {
   "pages": [
+    "pages/selectedLocation/index",
     "pages/show/index",
     "pages/login/index",
     "pages/index/index",
-    "pages/selectedLocation/index",
     "pages/adminlogin/index",
     "pages/addAdmin/index",
     "pages/adminApply/index",
