@@ -1,0 +1,2 @@
+< import src="../../template/signUser.wxml" />
+<template is="UserTab1" data="{{listData,userTab1Load}}"></template>

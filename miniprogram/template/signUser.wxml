@@ -1,0 +1,78 @@
+<template name="UserTab1">
+  <i-load-more wx:if="{{userTab1Load}}" />
+  <view class='swiperA'>
+    <view class="table">
+      <view class="tr bg-w">
+        <view class="th th1">序号</view>
+        <view class="th">姓名</view>
+        <view class="th ">签到时间</view>
+      </view>
+      <block wx:for="{{listData}}" wx:key="{{code}}">
+        <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+          <view class="td td1">
+            <text >{{index+1}}</text>
+          </view>
+          <view class="td">{{item.name}}</view>
+          <view class="td">{{item.time}}</view>
+        </view>
+        <view class="tr" bindtap="actionBssid" data-Id='{{index}}' wx:else>
+          <view class="td td1">
+            <text >{{index+1}}</text>
+          </view>
+          <view class="td">{{item.name}}</view>
+          <view class="td">{{item.time}}</view>
+        </view>
+      </block>
+    </view>
+    <i-action-sheet visible="{{ visible1 }}" actions="{{ actions1 }}" show-cancel bind:cancel="handleCancel1" bind:click="handleClickItem1" />
+    <i-modal title="备注" visible="{{ note }}" bind:ok="noteBssidCng" bind:cancel="handleClose1">
+      <i-input placeholder="请输入你的备注" bind:change="noteBssidchang" />
+    </i-modal>
+    <i-message id="message" />
+  </view>
+</template>
+
+<template name="UserTab2">
+  <i-load-more wx:if="{{userTab2Load}}" />
+  <view class='swiperA'>
+    <view class="table">
+      <view class="tr bg-w">
+        <view class="th th1">序号</view>
+        <view class="th">姓名</view>
+        <view class="th ">连续未签次数</view>
+      </view>
+      <block wx:for="{{listDataNum}}" wx:key="{{code}}">
+        <view class="tr bg-g" bindtap='listCheck' data-Name='{{item[0]}}' wx:if="{{index % 2 == 0}}">
+          <view class="td td1">
+            <i-tag wx:if="{{item[1] >= 3 ? true:false}}" class="i-tags" name="标签一" color="yellow">
+              超过
+            </i-tag>
+            <text wx:else>{{index+1}}</text>
+          </view>
+          <view class="td">{{item[0]}}</view>
+          <view class="td">{{item[1]}}</view>
+        </view>
+        <view class="tr" bindtap='listCheck' data-Name='{{item[0]}}'  wx:else>
+          <view class="td td1">
+            <i-tag wx:if="{{item[1] >= 3 ? true:false}}" class="i-tags" name="标签一" color="yellow">
+              超过
+            </i-tag>
+            <text wx:else>{{index+1}}</text>
+          </view>
+          <view class="td">{{item[0]}}</view>
+          <view class="td">{{item[1]}}</view>
+        </view>
+      </block>
+    </view>
+    <i-action-sheet visible="{{ visible1 }}" actions="{{ actions1 }}" show-cancel bind:cancel="handleCancel1" bind:click="handleClickItem1" />
+    <i-modal title="备注" visible="{{ note }}" bind:ok="noteBssidCng" bind:cancel="handleClose1">
+      <i-input placeholder="请输入你的备注" bind:change="noteBssidchang" />
+    </i-modal>
+    <i-message id="message" />
+  </view>
+</template>
+
+
+<template name="UserTab3">
+  12345
+</template>

@@ -9,13 +9,14 @@ Page({
   data: {
     name: '',
     id: '',
-    nameQ: ''
+    nameQ: '',
+    spinShow: false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onShow: function(options) {
     let _this = this;
     _this.setData({
       spinShow: true
@@ -53,23 +54,24 @@ Page({
     } else if (_this.data.name != _this.data.nameQ) {
       nav.message('请再次确认姓名', 'error')
     } else {
-      wx.setStorage({
-        key: "name",
-        data: _this.data.name
-      })
-      wx.setStorage({
-        key: "openid",
-        data: _this.data.id
-      })
       db.collection('sXuns_name').where({
-        name: _this.data.name
+        id: _this.data.id
       }).get({
         success(res) {
           if (res.data.length) {
             nav.message("已存在该账号")
+            wx.setStorage({
+              key: "name",
+              data: res.data[0].name
+            })
+            wx.setStorage({
+              key: "openid",
+              data: _this.data.id
+            })
             setTimeout(() => {
               nav.show();
             }, 1000)
+            console.log(res);
           } else {
             db.collection('sXuns_name').add({
                 data: {
@@ -78,6 +80,14 @@ Page({
                 }
               })
               .then(res => {
+                wx.setStorage({
+                  key: "name",
+                  data: _this.data.name
+                })
+                wx.setStorage({
+                  key: "openid",
+                  data: _this.data.id
+                })
                 nav.show();
               })
           }

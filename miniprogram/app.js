@@ -15,17 +15,17 @@ App({
 
     this.click = [{
         id: 1,
-        name: "添加管理员",
+        name: "管理员管理",
         event: "addAdmin"
       },
       {
         id: 2,
-        name: "今天已签到人员",
+        name: "签到管理",
         event: "signUser"
       },
       {
         id: 3,
-        name: "设置签到WIFI BSSID",
+        name: "BSSID管理",
         event: "setBssid"
       }
     ]

@@ -7,6 +7,7 @@
     <view wx:else>
       <i-button bind:click="adminApply" type="primary">申请管理员</i-button>
     </view>
+    <i-button bind:click="clickSeat" type="primary">座位表</i-button>
     <i-message id="message" />
   </view>
   <!-- 使用教程 -->
@@ -62,11 +63,13 @@
 </template>
 
 <template name="BssidTab2">
-  <view class='swiperA'>tab2</view>
+  <view class='swiperA'>
+    <i-load-more loading="{{ false }}" />
+  </view>
 </template>
 
 <template name="BssidTab3">
-  <view  class='swiperA'>
+  <view class='swiperA'>
     <view class="table">
       <view class="tr bg-w">
         <view class="th th1">序号</view>

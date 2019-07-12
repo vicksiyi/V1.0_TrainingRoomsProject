@@ -1,7 +1,7 @@
 const time = require('../../utils/time.js')
 const nav = require('../../utils/navigateto.js')
 const stor = require('../../utils/storage.js')
-const ckWifi = require('../../utils/checkWifi.js')
+const iWifiSign = require('../../utils/inertWifiSign.js')
 const app = getApp()
 
 
@@ -54,100 +54,18 @@ Page({
               break;
             }
           }
+          console.log('开始了',signTemp);
           if (signTemp) {
             nav.message("今天已签到!", "error")
           } else {
-            wx.startWifi({
-              success() {
-                wx.getConnectedWifi({
-                  success: re => {
-                    let bssidTemp = false
-                    db.collection("sXuns_bssid").get({
-                      success(all) {
-                        for (let i = 0; i < all.data.length; i++) {
-                          if (re.wifi.BSSID == all.data[i].bssid) {
-                            bssidTemp = true
-                          }
-                        }
-                        if (!bssidTemp) {
-                          nav.message('需要连接实训室WiFi进行签到', 'error')
-                        } else {
-                          var name = wx.getStorageSync('name')
-                          if (name) {
-                            db.collection('sXuns_sign').add({
-                                data: {
-                                  name: name,
-                                  openid: _this.data.openid,
-                                  time: time.formatTimeMM(new Date)
-                                }
-                              })
-                              .then(s => {
-                                nav.message('签到成功', 'success')
-                              })
-                            // .then(s=>{
-                            //   console.log("成功")
-                            // })
-                          } else {
-                            nav.login();
-                          }
-                        }
-                      }
-                    })
-                  },
-                  fail() {
-                    nav.message('未连接WiFi', 'error')
-                  }
-                })
-              }
-            })
+            console.log("开始其拿到");
+            iWifiSign.inertwifiSign(db, nav, _this.data.openid, time)
           }
           _this.setData({
             spinShow: false
           })
         } else {
-          wx.startWifi({
-            success() {
-              wx.getConnectedWifi({
-                success: re => {
-                  let bssidTemp = false
-                  db.collection("sXuns_bssid").get({
-                    success(all) {
-                      for (let i = 0; i < all.data.length; i++) {
-                        if (re.wifi.BSSID == all.data[i].bssid) {
-                          bssidTemp = true
-                        }
-                      }
-                      if (bssidTemp) {
-                        nav.message('需要连接实训室WiFi进行签到', 'error')
-                      } else {
-                        var name = wx.getStorageSync('name')
-                        if (name) {
-                          db.collection('sXuns_sign').add({
-                              data: {
-                                name: name,
-                                openid: _this.data.openid,
-                                time: time.formatTimeMM(new Date)
-                              }
-                            })
-                            .then(s => {
-                              nav.message('签到成功', 'success')
-                            })
-                          // .then(s=>{
-                          //   console.log("成功")
-                          // })
-                        } else {
-                          nav.login();
-                        }
-                      }
-                    }
-                  })
-                },
-                fail() {
-                  nav.message('未连接WiFi', 'error')
-                }
-              })
-            }
-          })
+          iWifiSign.inertwifiSign(db, nav, _this.data.openid, time)
         }
       })
     },
@@ -155,6 +73,7 @@ Page({
   onShow: function() {
     let _this = this
     const db = wx.cloud.database()
+    var name = wx.getStorageSync('name')
     db.collection('sXuns_admin').where({
         openid: "ohUw65LWnKW9zw10EuOJFs7hNyqA"
       }).get()
@@ -233,5 +152,8 @@ Page({
         nav.message('清缓存失败', 'error')
       }
     })
+  },
+  clickSeat:function(){
+    nav.admin("selectedLocation")
   }
 })

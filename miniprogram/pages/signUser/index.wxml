@@ -1,2 +1,18 @@
-<!--pages/signUser/index.wxml-->
-<text>pages/signUser/index.wxml</text>
+< import src="../../template/signUser.wxml" />
+<i-tabs current="{{ current }}" bindchange="handleChange">
+    <i-tab key="tab1" title="已签到"></i-tab>
+    <i-tab key="tab2" title="未签到次数"></i-tab>
+    <i-tab key="tab3" title="签到数据"></i-tab>
+</i-tabs>
+
+<swiper style='width:100%;height:{{height}}px;'  indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" bindchange="bindChange" current="{{currentItem}}">
+    <swiper-item item-id="tab1">
+      <template is="UserTab1" data="{{listData,userTab1Load}}"></template>
+    </swiper-item>
+    <swiper-item item-id="tab2">
+      <template is="UserTab2" data="{{listDataNum,userTab2Load}}"></template>
+    </swiper-item>
+    <swiper-item item-id="tab3">
+      <template is="UserTab3" data=""></template>
+    </swiper-item>
+</swiper>
