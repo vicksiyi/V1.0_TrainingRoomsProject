@@ -16,10 +16,12 @@ const inertwifiSign = (db, nav, openid, time) => {
               } else {
                 var name = wx.getStorageSync('name')
                 if (name) {
+                  let systemInfo = wx.getSystemInfoSync()
                   db.collection('sXuns_sign').add({
                     data: {
                       name: name,
                       openid: openid,
+                      systemInfo: systemInfo,
                       time: time.formatTimeMM(new Date)
                     },
                     success() {
