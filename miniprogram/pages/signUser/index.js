@@ -44,7 +44,7 @@ Page({
           }
           //汇集
           let tempNumOnlyEach = [...new Set(tempNumOnly)]
-          console.log(tempNum);
+          console.log(tempNum,tempNumOnlyEach);
           for (let i = 0; i < tempNumOnlyEach.length; i++) {
             tempNumOnlyNum[i] = new Array() //定义二维数组
             for (let j = tempNum.length - 1; j >= 0; j--) {
@@ -58,8 +58,8 @@ Page({
           console.log(tempNumOnlyNum);
           let num = 0
           for (let i = 0; i < tempNumOnlyNum.length; i++) {
-            if (time.formatTimeMM(new Date()).split(" ")[0].split("/")[1] == tempNumOnlyNum[i][0][2]) {
-              num = Number(time.formatTimeMM(new Date()).split(" ")[0].split("/")[2]) - tempNumOnlyNum[i][0][3]
+            if (time.formatTime(new Date()).split(" ")[0].split("/")[1] == tempNumOnlyNum[i][0][2]) {
+              num = Number(time.formatTime(new Date()).split(" ")[0].split("/")[2]) - tempNumOnlyNum[i][0][3]
             }
             usersSign.push([tempNumOnlyNum[i][0][0], String(num)])
           }
@@ -111,7 +111,7 @@ Page({
     db.collection('sXuns_sign').get({
       success(res) {
         pushEnd: for (let i = 0; i < res.data.length; i++) {
-          if (res.data[i].time.split(" ")[0] == time.formatTimeMM(new Date()).split(" ")[0]) {
+          if (res.data[i].time.split(" ")[0] == time.formatTime(new Date()).split(" ")[0]) {
             if (temp.length >= 10) {
               break pushEnd;
             } else {

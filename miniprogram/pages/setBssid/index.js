@@ -105,7 +105,7 @@ Page({
                   ssid: _this.data.ssid,
                   bssid: _this.data.bssid,
                   noteBssid: '',
-                  time: time.formatTimeMM(new Date)
+                  time: time.formatTime(new Date)
                 }
               })
               .then(s => {

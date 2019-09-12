@@ -15,7 +15,7 @@ Page({
    */
   onShow: function(options) {
     let _this = this;
-    let newtime = time.formatTimeMM(new Date).split(' ')[1].split(':')[0];
+    let newtime = time.formatTime(new Date).split(' ')[1].split(':')[0];
     if (newtime > '20' || newtime < '06') {
       _this.setData({
         timeName: '夜深了'
@@ -40,11 +40,11 @@ Page({
           name: res.data
         })
         setTimeout(() => {
-          nav.index();
+          nav.admin("index");
         }, 2000)
       },
       fail() {
-        nav.login();
+        nav.admin("login");
       }
     })
   }

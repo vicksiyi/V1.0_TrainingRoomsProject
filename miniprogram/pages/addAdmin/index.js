@@ -1,6 +1,4 @@
 // pages/addAdmin/index.js
-const nav = require('../../utils/navigateto.js')
-const time = require('../../utils/time.js')
 const app = getApp()
 Page({
 

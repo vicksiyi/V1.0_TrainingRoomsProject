@@ -1,6 +1,6 @@
 const time = require('../../utils/time.js')
+// const utils = require('../../utils/utils.js')
 const nav = require('../../utils/navigateto.js')
-const stor = require('../../utils/storage.js')
 Page({
 
   /**
@@ -14,14 +14,14 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面加载
+   * onShow 获取openid
    */
-  onShow: function(options) {
+  onShow: function (options) {
     let _this = this;
     _this.setData({
       spinShow: true
     })
-    nav.message('初次进入系统得先签到', '')
+    nav.message('初次进入系统得先绑定ID号', '')
     wx.cloud.callFunction({
       name: 'login',
       complete: res => {
@@ -31,35 +31,40 @@ Page({
       }
     })
     _this.setData({
+      // id: utils.login(),              // 获取openid
       spinShow: false
     })
   },
-  changeName: function(res) {
+  changeName: function (res) {
     let _this = this;
     _this.setData({
       name: res.detail.detail.value
     })
   },
-  changeNameQ: function(res) {
+  changeNameQ: function (res) {
     let _this = this;
     _this.setData({
       nameQ: res.detail.detail.value
     })
   },
-  formSubmit: time.throttle(function() {
+  /**
+   * 提交表单
+   * ->防重操作
+   */
+  formSubmit: time.throttle(function () {
     let _this = this;
     const db = wx.cloud.database()
     if (_this.data.name == '') {
-      nav.message('姓名不能为空!!!', 'error')
+      nav.message('姓名不能为空!!!', 'error')   
     } else if (_this.data.name != _this.data.nameQ) {
-      nav.message('请再次确认姓名', 'error')
+      nav.message('请再次确认姓名', 'error')    
     } else {
       db.collection('sXuns_name').where({
         id: _this.data.id
       }).get({
         success(res) {
           if (res.data.length) {
-            nav.message("已存在该账号")
+            nav.message("已存在该账号")        
             wx.setStorage({
               key: "name",
               data: res.data[0].name
@@ -69,16 +74,17 @@ Page({
               data: _this.data.id
             })
             setTimeout(() => {
-              nav.show();
+              nav.admin("show");            // 页面跳转
             }, 1000)
             console.log(res);
           } else {
             db.collection('sXuns_name').add({
-                data: {
-                  name: _this.data.name,
-                  id: _this.data.id
-                }
-              })
+              data: {
+                name: _this.data.name,
+                id: _this.data.id,
+                time:time.formatTime(new Date())
+              }
+            })
               .then(res => {
                 wx.setStorage({
                   key: "name",
@@ -88,7 +94,7 @@ Page({
                   key: "openid",
                   data: _this.data.id
                 })
-                nav.show();
+                nav.admin("show");
               })
           }
         }

@@ -19,7 +19,7 @@ Page({
       userTab1Load: true
     })
     db.collection('sXuns_sign').where({
-      name: options.name
+      name: options.name           //后期改为OPENID
     }).get({
       success(res) {
         console.log(res.data);

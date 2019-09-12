@@ -9,10 +9,6 @@ App({
       })
     }
 
-    this.globalData = {
-      wifiBssid: 'f4:83:cd:53:93:la' //实训室wifi
-    }
-
     this.click = [{
         id: 1,
         name: "管理员管理",
@@ -26,6 +22,11 @@ App({
       {
         id: 3,
         name: "BSSID管理",
+        event: "setBssid"
+      },
+      {
+        id: 4,
+        name: "全局通知管理",
         event: "setBssid"
       }
     ]

@@ -15,7 +15,7 @@
           <view class="td">{{item.name}}</view>
           <view class="td">{{item.time}}</view>
         </view>
-        <view class="tr" bindtap="actionBssid" data-Id='{{index}}' wx:else>
+        <view class="tr"  data-Id='{{index}}' wx:else>
           <view class="td td1">
             <text >{{index+1}}</text>
           </view>
