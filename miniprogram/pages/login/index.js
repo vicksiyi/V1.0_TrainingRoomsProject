@@ -24,15 +24,13 @@ Page({
     nav.message('初次进入系统得先绑定ID号', '')
     wx.cloud.callFunction({
       name: 'login',
-      complete: res => {
+      success(res) {
+        console.log(res.result.openid);
         _this.setData({
-          id: res.result.openid
+          id: res.result.openid,
+          spinShow: false
         })
       }
-    })
-    _this.setData({
-      // id: utils.login(),              // 获取openid
-      spinShow: false
     })
   },
   changeName: function (res) {
@@ -55,16 +53,16 @@ Page({
     let _this = this;
     const db = wx.cloud.database()
     if (_this.data.name == '') {
-      nav.message('姓名不能为空!!!', 'error')   
+      nav.message('姓名不能为空!!!', 'error')
     } else if (_this.data.name != _this.data.nameQ) {
-      nav.message('请再次确认姓名', 'error')    
+      nav.message('请再次确认姓名', 'error')
     } else {
       db.collection('sXuns_name').where({
         id: _this.data.id
       }).get({
         success(res) {
           if (res.data.length) {
-            nav.message("已存在该账号")        
+            nav.message("已存在该账号")
             wx.setStorage({
               key: "name",
               data: res.data[0].name
@@ -82,7 +80,7 @@ Page({
               data: {
                 name: _this.data.name,
                 id: _this.data.id,
-                time:time.formatTime(new Date())
+                time: time.formatTime(new Date())
               }
             })
               .then(res => {

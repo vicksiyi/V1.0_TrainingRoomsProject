@@ -1,4 +1,3 @@
-const nav = require('../../utils/navigateto.js')
 const time = require('../../utils/time.js')
 Page({
 
@@ -22,9 +21,6 @@ Page({
   }) {
     let _this = this
     const db = wx.cloud.database()
-    let tempNum = []
-    let tempNumOnly = []
-    let tempNumOnlyNum = new Array()
     let usersSign = new Array()
     this.setData({
       current: detail.key
@@ -34,51 +30,106 @@ Page({
         currentItem: 1,
         userTab2Load: true
       })
-      db.collection('sXuns_sign').get({
-        //连续签到次数
-        success(res) {
-          // 分开
-          for (let i = 0; i < res.data.length; i++) {
-            tempNum.push([res.data[i].name, res.data[i].time.split(" ")[0].split("/")[0], res.data[i].time.split(" ")[0].split("/")[1], res.data[i].time.split(" ")[0].split("/")[2]])
-            tempNumOnly.push(res.data[i].name)
-          }
-          //汇集
-          let tempNumOnlyEach = [...new Set(tempNumOnly)]
-          console.log(tempNum,tempNumOnlyEach);
-          for (let i = 0; i < tempNumOnlyEach.length; i++) {
-            tempNumOnlyNum[i] = new Array() //定义二维数组
-            for (let j = tempNum.length - 1; j >= 0; j--) {
-              if (tempNumOnlyEach[i] == tempNum[j][0]) {
-                if (tempNumOnlyNum[i].length <= 10) {
-                  tempNumOnlyNum[i].push([tempNum[j][0], tempNum[j][1], tempNum[j][2], tempNum[j][3]])
-                }
+
+
+      // 获取8天所有人的数据
+      let allDataFun = () => {
+        let allTemp = []
+        for (let i = 0; i < 18; i++) {
+          let num = i * 20
+          if (num) {
+            db.collection('sXuns_sign').skip(num).get({
+              //连续缺签到次数
+              success(res) {
+                allTemp.push(...res.data)
               }
-            }
-          }
-          console.log(tempNumOnlyNum);
-          let num = 0
-          for (let i = 0; i < tempNumOnlyNum.length; i++) {
-            if (time.formatTime(new Date()).split(" ")[0].split("/")[1] == tempNumOnlyNum[i][0][2]) {
-              num = Number(time.formatTime(new Date()).split(" ")[0].split("/")[2]) - tempNumOnlyNum[i][0][3]
-            }
-            usersSign.push([tempNumOnlyNum[i][0][0], String(num)])
-          }
-          let tempNumString = [];
-          for (let i = 0; i < usersSign.length; i++) {
-            for (let j = 0; j < usersSign.length; j++) {
-              if (Number(usersSign[i][1]) > Number(usersSign[j][1])) {
-                tempNumString = usersSign[i]
-                usersSign[i] = usersSign[j]
-                usersSign[j] = tempNumString
+            })
+          } else {
+            db.collection('sXuns_sign').get({
+              //连续缺签到次数
+              success(res) {
+                allTemp.push(...res.data)
               }
-            }
+            })
           }
-          _this.setData({
-            listDataNum: usersSign,
-            userTab2Load: false
-          })
         }
-      })
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve(allTemp)
+          }, 2000);
+        })
+      }
+
+
+      let allDataTemp = []
+      // 同步获取所有数据
+      let event = async () => {
+        allDataTemp = await allDataFun()
+        let allDataArray = [...allDataTemp]
+
+        //获取名字唯一
+        let nameSet = (() => {
+          let name = []
+          for (let i = 0; i < allDataArray.length; i++) {
+            name.push(allDataArray[i].name)
+          }
+          return [...new Set(name)]
+        })()
+
+
+        // 二分法排序
+        let binarySort = (array) => {
+          var len = array.length,
+            i, j, tmp, low, high, mid, result;
+          // 赋予数组副本
+          result = array.slice(0);
+          for (i = 1; i < len; i++) {
+            tmp = result[i];
+            low = 0;
+            high = i - 1;
+            while (low <= high) {
+              mid = parseInt((low + high) / 2, 10);
+              if (tmp < result[mid]) high = mid - 1;
+              else low = mid + 1;
+            }
+            for (j = i - 1; j >= high + 1; j--) {
+              result[j + 1] = result[j];
+            }
+            result[j + 1] = tmp;
+          }
+          return result;
+        }
+
+
+        // 获取最新一次签到时间
+        let nameArrayObject = new Array()
+        // 分类[{name,time}]
+        nameSet.map((key) => {
+          let timeSortTemp = []
+          for (let i = 0; i < allDataArray.length; i++) {
+            if (allDataArray[i].name == key) {
+              let timeTemp = new Date(allDataArray[i].time.split(" ")[0])
+              timeSortTemp.push(timeTemp.getTime())
+            }
+          }
+          // 对时间进行排序
+          let sortTime = binarySort(timeSortTemp)
+          let newTime = new Date()
+          // 返回最近一次签到时间
+          nameArrayObject.push({
+            name : key,
+            time : Math.floor((newTime - sortTime[sortTime.length - 1])/(24*3600*1000))   // 距离最近一次签到时间的天数
+          })
+        })
+        console.log(nameArrayObject);
+
+        _this.setData({
+          // listDataNum: allData,
+          userTab2Load: false
+        })
+      }
+      event()
+
     } else if (detail.key == "tab3") {
       _this.setData({
         currentItem: 2
@@ -89,17 +140,17 @@ Page({
       })
     }
   },
-  bindChange: function(res) {
+  bindChange: function (res) {
     this.setData({
       current: res.detail.currentItemId
     })
   },
-  onShow: function() {
+  onShow: function () {
     let _this = this
     const db = wx.cloud.database()
     let temp = []
     wx.getSystemInfo({
-      success: function(res) {
+      success: function (res) {
         _this.setData({
           height: parseInt(res.windowHeight) - 50 + ''
         })
@@ -126,7 +177,7 @@ Page({
       }
     })
   },
-  listCheck:function(res){
+  listCheck: function (res) {
     wx.navigateTo({
       url: '../../pages/listCheck/index?name=' + res.currentTarget.dataset.name
     })

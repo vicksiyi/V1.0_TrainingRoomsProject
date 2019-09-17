@@ -1,15 +1,15 @@
 {
   "pages": [
+    "pages/signUser/index",
     "pages/index/index",
     "pages/show/index",
     "pages/login/index",
     "pages/selectedLocation/index",
+    "pages/getUser/index",
     "pages/adminlogin/index",
     "pages/addAdmin/index",
     "pages/adminApply/index",
-    "pages/getUser/index",
     "pages/setBssid/index",
-    "pages/signUser/index",
     "pages/listCheck/index"
   ],
   "window": { 
