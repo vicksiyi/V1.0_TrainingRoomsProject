@@ -2,9 +2,9 @@
   "pages": [
     "pages/index/index",
     "pages/adminlogin/index",
-    "pages/msgSuccess/index",
     "pages/show/index",
     "pages/signUser/index",
+    "pages/msgSuccess/index",
     "pages/login/index",
     "pages/messagePage/index",
     "pages/selectedLocation/index",

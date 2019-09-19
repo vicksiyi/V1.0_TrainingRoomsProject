@@ -1,7 +1,3 @@
-<!--index.wxml-->
-<view class="container">
-  <ec-canvas id="mychart-dom-area" canvas-id="mychart-area" ec="{{ ec }}"></ec-canvas>
-</view>
 
 <button open-type="getUserInfo" bindgetuserinfo="getUser">授权</button>
 <i-message id="message" />
