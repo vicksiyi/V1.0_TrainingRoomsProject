@@ -1,3 +1,9 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "i-card": "../../dist/card/index",
+    "i-avatar": "../../dist/avatar/index",
+    "i-tag": "../../dist/tag/index",
+    "ec-canvas": "../../ec-canvas/ec-canvas"
+  },
+  "navigationBarTitleText": "收到情况"
 }

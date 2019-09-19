@@ -1,8 +1,8 @@
 {
   "pages": [
-    "pages/msgSuccess/index",
     "pages/index/index",
     "pages/adminlogin/index",
+    "pages/msgSuccess/index",
     "pages/show/index",
     "pages/signUser/index",
     "pages/login/index",
