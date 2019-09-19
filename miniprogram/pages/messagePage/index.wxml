@@ -1,0 +1,5 @@
+<i-panel title="基础用法">
+  <i-input value="{{ value1 }}" bind:change="msg" title="消息" autofocus placeholder="内容" />
+  <i-button bind:click="handleClick" type="primary">发布</i-button>
+</i-panel>
+<i-message id="message" />

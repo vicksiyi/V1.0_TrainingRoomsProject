@@ -1,22 +1,20 @@
 < import src="../../template/tab.wxml" />
 <!-- 通知 -->
-<i-notice-bar icon="systemprompt" loop>
-  这是一些信息的通知！！！
-</i-notice-bar>
+<i-notice-bar icon="systemprompt" loop closable>{{msg}}</i-notice-bar>
 
 <swiper style='width:100%;height:{{height}}px;' indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" bindchange="bindChange" current="{{currentItem}}">
-    <swiper-item item-id="homepage">
-      <template is="tab1" data="{{admin}}"></template>
-    </swiper-item>
-    <swiper-item item-id="group">
-      <template is="tab2" data="{{notice,openid,load,visible2,actions2,notice2}}"></template>
-    </swiper-item>
-    <swiper-item item-id="remind">
-      <template is="tab3" data=""></template>
-    </swiper-item>
-    <swiper-item item-id="mine">
-      <template is="tab4" data="{{openid,nickName,avatarUrl}}"></template>
-    </swiper-item>
+  <swiper-item item-id="homepage">
+    <template is="tab1" data="{{admin}}"></template>
+  </swiper-item>
+  <swiper-item item-id="group">
+    <template is="tab2" data="{{notice,openid,load,visible2,actions2,notice2}}"></template>
+  </swiper-item>
+  <swiper-item item-id="remind">
+    <template is="tab3" data=""></template>
+  </swiper-item>
+  <swiper-item item-id="mine">
+    <template is="tab4" data="{{openid,nickName,avatarUrl}}"></template>
+  </swiper-item>
 </swiper>
 <i-spin size="large" fix wx:if="{{ spinShow }}"></i-spin>
 <view class="footer">
@@ -27,3 +25,16 @@
     <i-tab-bar-item key="mine" icon="mine" current-icon="mine_fill" title="我的"></i-tab-bar-item>
   </i-tab-bar>
 </view>
+
+<!-- 弹窗通知 -->
+<div class="cover" wx:if="{{showModel}}">
+  <view class="model">
+    <view class="model-all">@所有人</view>
+    <view class="model-content">
+      {{msg}}
+    </view>
+    <view class="model-button">
+      <i-button bind:click="closeMsg" size="small" type="primary">已收到</i-button>
+    </view>
+  </view>
+</div>

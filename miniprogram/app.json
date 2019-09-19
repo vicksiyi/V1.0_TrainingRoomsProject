@@ -1,18 +1,21 @@
 {
   "pages": [
-    "pages/signUser/index",
+    "pages/msgSuccess/index",
     "pages/index/index",
+    "pages/adminlogin/index",
     "pages/show/index",
+    "pages/signUser/index",
     "pages/login/index",
+    "pages/messagePage/index",
     "pages/selectedLocation/index",
     "pages/getUser/index",
-    "pages/adminlogin/index",
     "pages/addAdmin/index",
     "pages/adminApply/index",
     "pages/setBssid/index",
-    "pages/listCheck/index"
+    "pages/listCheck/index",
+    "pages/dataList/index"
   ],
-  "window": { 
+  "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",

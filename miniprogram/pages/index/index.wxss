@@ -56,3 +56,29 @@ swiper{
   display: flex;
   flex-direction: row;
 }
+
+
+.cover{
+  width: 100%;
+  height: 100%;
+  position:absolute;left:0px;top:0px;
+  background:rgba(0, 0, 0, 0.4);
+}
+
+.model{
+  background: #fff;
+  width: 70%;
+  margin: 40% auto;
+}
+.model-content{
+  padding: 30rpx;
+  font-size: 0.8rem;
+  color: #80848f;
+}
+.model-all{
+  padding: 30rpx;
+  color: #495060;
+}
+.model-button{
+  padding-block-end: 20rpx;
+}

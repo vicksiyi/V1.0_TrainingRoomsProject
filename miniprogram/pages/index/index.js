@@ -1,8 +1,5 @@
 const time = require('../../utils/time.js')
 const nav = require('../../utils/navigateto.js')
-const app = getApp()
-
-
 Page({
   data: {
     current: 'homepage',
@@ -14,7 +11,10 @@ Page({
     height: '',
     openid: '',
     avatarUrl: '',
-    spinShow: false
+    spinShow: false,
+    msg: '暂无',
+    showModel: false,
+    msgid: ''
   },
   handleChange: function (res) {
     let _this = this;
@@ -167,11 +167,11 @@ Page({
       }
     })
   },
-    4000),
+    40000),
   onShow: function () {
     let _this = this
     const db = wx.cloud.database()
-    var name = wx.getStorageSync('name')
+    // var name = wx.getStorageSync('name')
     db.collection('sXuns_admin').where({
       openid: "ohUw65LWnKW9zw10EuOJFs7hNyqA"
     }).get()
@@ -203,6 +203,37 @@ Page({
       },
       fail() {
         nav.admin("getUser")
+      }
+    })
+    // 更新全局消息
+    db.collection('sXuns_msg').get({
+      success(re) {
+        if (re.data) {
+          // console.log(res.data[0]);
+          _this.setData({
+            msgid: re.data[re.data.length - 1]._id,
+            msg: re.data[re.data.length - 1].value
+          })
+          wx.getStorage({
+            key: 'name',
+            success(e) {
+              console.log(e.data);
+              // 检测是否更新数据
+              db.collection('sXuns_addmsg').where({
+                msgid: re.data[re.data.length - 1]._id,
+                name: e.data
+              }).get({
+                success(e) {
+                  if (!e.data.length) {  // 没有收到则弹出广告
+                    _this.setData({
+                      showModel: true
+                    })
+                  }
+                }
+              })
+            }
+          })
+        }
       }
     })
   },
@@ -253,5 +284,33 @@ Page({
   },
   clickSeat: function () {
     nav.admin("selectedLocation")
+  },
+  closeMsg: function () {
+    let _this = this
+    const db = wx.cloud.database()
+    wx.getStorage({
+      key: 'name',
+      success(res) {
+        // 收到信息
+        db.collection('sXuns_addmsg').add({
+          // data 字段表示需新增的 JSON 数据
+          data: {
+            msgid: _this.data.msgid,
+            image: _this.data.avatarUrl,
+            name: res.data,
+            time: time.formatTime(new Date())
+          },
+          success: function (e) {
+            _this.setData({
+              showModel: false
+            })
+            nav.message("确认收到成功", "success")
+          }
+        })
+      },
+      fail(err) {
+        nav.admin("login");
+      }
+    })
   }
 })

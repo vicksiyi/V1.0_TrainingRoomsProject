@@ -27,7 +27,12 @@ App({
       {
         id: 4,
         name: "全局通知管理",
-        event: "setBssid"
+        event: "messagePage"
+      },
+      {
+        id: 5,
+        name: "信息收到情况管理",
+        event: "msgSuccess"
       }
     ]
   }

@@ -1,0 +1,8 @@
+<block wx:for="{{list}}">
+    <view class="content" bindtap="navDataList" data-Id="{{item._id}}">
+        <i-card>
+            <view slot="content">{{item.value}}</view>
+            <view slot="footer">{{item.time}}</view>
+        </i-card>
+    </view>
+</block>

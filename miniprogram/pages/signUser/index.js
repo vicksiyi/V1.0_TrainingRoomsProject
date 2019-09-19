@@ -21,7 +21,6 @@ Page({
   }) {
     let _this = this
     const db = wx.cloud.database()
-    let usersSign = new Array()
     this.setData({
       current: detail.key
     });
@@ -117,14 +116,23 @@ Page({
           let newTime = new Date()
           // 返回最近一次签到时间
           nameArrayObject.push({
-            name : key,
-            time : Math.floor((newTime - sortTime[sortTime.length - 1])/(24*3600*1000))   // 距离最近一次签到时间的天数
+            name: key,
+            time: Math.floor((newTime - sortTime[sortTime.length - 1]) / (24 * 3600 * 1000))   // 距离最近一次签到时间的天数
           })
         })
-        console.log(nameArrayObject);
-
+        // 缺签次数排序
+        let temp
+        for (let i = 0; i < nameArrayObject.length; i++) {
+          for (let j = 0; j < nameArrayObject.length; j++) {
+            if (nameArrayObject[i].time > nameArrayObject[j].time) {
+              temp = nameArrayObject[i]
+              nameArrayObject[i] = nameArrayObject[j]
+              nameArrayObject[j] = temp
+            }
+          }
+        }
         _this.setData({
-          // listDataNum: allData,
+          listDataNum: nameArrayObject,
           userTab2Load: false
         })
       }
@@ -135,8 +143,29 @@ Page({
         currentItem: 2
       })
     } else {
+      // 重新加载数据
       _this.setData({
-        currentItem: 0
+        currentItem: 0,
+        userTab1Load: true
+      })
+      let temp = []
+      db.collection('sXuns_sign').get({
+        success(res) {
+          pushEnd: for (let i = 0; i < res.data.length; i++) {
+            if (res.data[i].time.split(" ")[0] == time.formatTime(new Date()).split(" ")[0]) {
+              if (temp.length >= 10) {
+                console.log("123");
+                break pushEnd;
+              } else {
+                temp.push(res.data[i])
+              }
+            }
+          }
+          _this.setData({
+            listData: temp,
+            userTab1Load: false
+          })
+        }
       })
     }
   },
@@ -147,8 +176,8 @@ Page({
   },
   onShow: function () {
     let _this = this
-    const db = wx.cloud.database()
     let temp = []
+    const db = wx.cloud.database()
     wx.getSystemInfo({
       success: function (res) {
         _this.setData({

@@ -8,13 +8,7 @@ Page({
   data: {
     click: app.click
   },
-  setBssid: function() {
-    nav.admin("setBssid")
-  },
-  signUser: function() {
-    nav.admin("signUser")
-  },
-  addAdmin: function() {
-    nav.admin("addAdmin")
+  navList: function(res) {
+    nav.admin(res.currentTarget.dataset.id)
   }
 })
