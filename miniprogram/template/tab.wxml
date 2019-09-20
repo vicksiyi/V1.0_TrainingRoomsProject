@@ -12,6 +12,7 @@
   </view>
   <!-- 使用教程 -->
 </template>
+<!-- 个人数据展示 -->
 <template name="tab2">
   <view class='swiperA'>
     <view class="container" wx:if="{{showCanvas}}">
@@ -22,9 +23,39 @@
     </view>
   </view>
 </template>
+<!-- 通知用户展示 -->
 <template name="tab3">
-  <view class='swiperA'>tab3</view>
+  <view class='swiperA'>
+    <!-- 未收到 -->
+    <i-card title="未查看">
+      <view slot="content">
+        <view class="person-content" style="height:{{(windowHeight -183)/2}}px;">
+          <block wx:for="{{noSubmitList}}">
+            <i-alert type="warning">
+              {{item.time}}
+              <view slot="desc">{{item.value}}</view>
+            </i-alert>
+          </block>
+        </view>
+      </view>
+    </i-card>
+    <i-divider color="#2d8cf0" lineColor="#2d8cf0">我们是有界限的...</i-divider>
+    <!-- 已收到 -->
+    <i-card title="已查看">
+      <view slot="content">
+        <view class="person-content" style="height:{{(windowHeight -383)/2}}px;">
+          <block wx:for="{{submitList}}">
+            <i-alert type="success">
+              {{item.time}}
+              <view slot="desc">{{item.value}}</view>
+            </i-alert>
+          </block>
+        </view>
+      </view>
+    </i-card>
+  </view>
 </template>
+<!-- 我的页面 -->
 <template name="tab4">
   <view class='swiperA'>
     <i-card title="{{nickName}}" extra="用户" thumb="{{avatarUrl}}">
@@ -41,6 +72,7 @@
     </i-card>
   </view>
 </template>
+<!-- 添加BSSID -->
 <template name="BssidTab1">
   <view class='swiperA'>
     <i-button bind:click="getBssid" type="primary">获取Bssid</i-button>

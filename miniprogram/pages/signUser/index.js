@@ -30,7 +30,6 @@ Page({
         userTab2Load: true
       })
 
-
       // 获取8天所有人的数据
       let allDataFun = () => {
         let allTemp = []

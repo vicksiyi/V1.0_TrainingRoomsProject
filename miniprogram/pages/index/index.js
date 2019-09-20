@@ -19,14 +19,19 @@ Page({
     showModel: false,
     msgid: '',
     windowWidth: 320,
+    windowHeight: 0,
     dataTime: [],
     showCanvas: false,
-    cate: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20']
+    cate: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'],
+    name: 0,
+    submitList: [],
+    noSubmitList: []
   },
   handleChange: function (res) {
     let _this = this;
     let currentNumItem = 0
     const db = wx.cloud.database()
+    const _ = db.command
     _this.setData({
       current: res.detail.key
     })
@@ -34,6 +39,46 @@ Page({
       currentNumItem = 1
     } else if (_this.data.current == 'remind') {
       currentNumItem = 2
+      // 折条
+      db.collection('sXuns_addmsg').where({
+        _openid: _this.data.openid
+      }).get({
+        success(res) {
+          let tempList = []
+          for (let i = 0; i < res.data.length; i++) {
+            tempList.push(res.data[i].msgid)
+          }
+          // 已经查重完的列表
+          let tempListImport = [...new Set(tempList)]
+          // 已收到
+          db.collection('sXuns_msg').where({
+            _id: _.in(tempListImport)
+          }).get({
+            success(re) {
+              _this.setData({
+                submitList: re.data.reverse()
+              })
+              console.log(re.data)
+            },
+            fail(err) {
+              console.log(err);
+            }
+          })
+          // 未收到
+          db.collection('sXuns_msg').where({
+            _id: _.nin(tempListImport)
+          }).get({
+            success(re) {
+              _this.setData({
+                noSubmitList: re.data
+              })
+            },
+            fail(err) {
+              console.log(err);
+            }
+          })
+        }
+      })
     } else if (_this.data.current == 'mine') {
       currentNumItem = 3
     } else {
@@ -271,7 +316,8 @@ Page({
         try {
           var resWin = wx.getSystemInfoSync();
           _this.setData({
-            windowWidth: resWin.windowWidth
+            windowWidth: resWin.windowWidth,
+            windowHeight: resWin.windowHeight
           })
           let event = async () => {
             let numTemp = await _this.updateItem(res.data)

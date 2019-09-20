@@ -41,7 +41,7 @@ Page({
         success: function (res) {
           nav.message("发布成功", "success")
           setTimeout(() => {
-            nav.admin("adminlogin");
+            nav.admin("adminlogin", "redirectTo");
           }, 1000)
         }
       })

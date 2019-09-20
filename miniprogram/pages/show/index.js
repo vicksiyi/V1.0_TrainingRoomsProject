@@ -40,11 +40,11 @@ Page({
           name: res.data
         })
         setTimeout(() => {
-          nav.admin("index");
+          nav.admin("index","redirectTo");
         }, 2000)
       },
       fail() {
-        nav.admin("login");
+        nav.admin("login","redirectTo");
       }
     })
   }
