@@ -13,36 +13,34 @@
   <!-- 使用教程 -->
 </template>
 <template name="tab2">
-  <view class='swiperA'>tab2</view>
+  <view class='swiperA'>
+    <view class="container" wx:if="{{showCanvas}}">
+      <canvas canvas-id="areaCanvas" class="canvas" bindtouchstart="touchHandler"></canvas>
+    </view>
+    <view wx:else>
+      <i-load-more tip="暂无数据" loading="{{ false }}" />
+    </view>
+  </view>
 </template>
 <template name="tab3">
   <view class='swiperA'>tab3</view>
 </template>
-
 <template name="tab4">
   <view class='swiperA'>
     <i-card title="{{nickName}}" extra="用户" thumb="{{avatarUrl}}">
       <view slot="content" class='meId'>
-        <view style='width:85%;'>
-          {{openid}}
-        </view>
+        <view style='width:85%;'>{{openid}}</view>
         <view bindtap='copyTag' style='width:15%;'>
-          <i-tag class="i-tags" name="复制" color="blue">
-            复制
-          </i-tag>
+          <i-tag class="i-tags" name="复制" color="blue">复制</i-tag>
         </view>
         <view bindtap='temp' style='width:15%;'>
-          <i-tag class="i-tags" name="复制" color="blue">
-            清缓存
-          </i-tag>
+          <i-tag class="i-tags" name="复制" color="blue">清缓存</i-tag>
         </view>
       </view>
       <view slot="footer">可复制ID去申请管理员</view>
     </i-card>
   </view>
 </template>
-
-
 <template name="BssidTab1">
   <view class='swiperA'>
     <i-button bind:click="getBssid" type="primary">获取Bssid</i-button>
@@ -52,22 +50,18 @@
         <view class='fontBs'>名称:{{ssid}}</view>
       </view>
       <view style='width:20%;margin-top:21px;' bindtap='addBssid'>
-        <i-tag class="i-tags" name="标签一" color="blue">
-          添加BSSID
-        </i-tag>
+        <i-tag class="i-tags" name="标签一" color="blue">添加BSSID</i-tag>
       </view>
     </view>
     <i-load-more wx:if="{{loadBssid}}" />
     <i-message id="message" />
   </view>
 </template>
-
 <template name="BssidTab2">
   <view class='swiperA'>
     <i-load-more loading="{{ false }}" />
   </view>
 </template>
-
 <template name="BssidTab3">
   <view class='swiperA'>
     <view class="table">

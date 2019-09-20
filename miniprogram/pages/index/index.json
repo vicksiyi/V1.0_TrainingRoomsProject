@@ -11,6 +11,7 @@
     "i-badge": "../../dist/badge/index",
     "i-tab-bar": "../../dist/tab-bar/index",
     "i-tab-bar-item": "../../dist/tab-bar-item/index",
-    "i-tag": "../../dist/tag/index"
+    "i-tag": "../../dist/tag/index",
+    "i-load-more": "../../dist/load-more/index"
   }
 }

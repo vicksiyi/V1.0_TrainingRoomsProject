@@ -7,7 +7,7 @@
     <template is="tab1" data="{{admin}}"></template>
   </swiper-item>
   <swiper-item item-id="group">
-    <template is="tab2" data="{{notice,openid,load,visible2,actions2,notice2}}"></template>
+    <template is="tab2" data="{{notice,openid,load,visible2,actions2,notice2,showCanvas}}"></template>
   </swiper-item>
   <swiper-item item-id="remind">
     <template is="tab3" data=""></template>
