@@ -20,8 +20,8 @@ Page({
     msgid: '',
     windowWidth: 320,
     dataTime: [],
-    timeInt: [123, 123, 144, 1, 5, 13, 2, 12, 3, 12, 3, 123, 1],
-    showCanvas: true
+    showCanvas: false,
+    cate: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20']
   },
   handleChange: function (res) {
     let _this = this;
@@ -61,7 +61,7 @@ Page({
           }
         }
         if (signTemp) {
-          nav.message("今天已签到!", "error")
+          nav.message("今天已签到!封锁按钮一分钟", "error")
         } else {
           // iWifiSign.inertwifiSign(db, nav, _this.data.openid, time)
           wx.startWifi({
@@ -77,7 +77,7 @@ Page({
                         }
                       }
                       if (bssidTemp) {
-                        nav.message('需要连接实训室WiFi进行签到', 'error')
+                        nav.message('需要连接实训室WiFi进行签到,一分钟后重试', 'error')
                       } else {
                         var name = wx.getStorageSync('name')
                         if (name) {
@@ -107,7 +107,7 @@ Page({
                   })
                 },
                 fail() {
-                  nav.message('未连接WiFi', 'error')
+                  nav.message('未连接WiFi,一分钟后重试', 'error')
                 }
               })
             },
@@ -134,7 +134,7 @@ Page({
                       }
                     }
                     if (bssidTemp) {
-                      nav.message('需要连接实训室WiFi进行签到', 'error')
+                      nav.message('需要连接实训室WiFi进行签到,一分钟后重试', 'error')
                     } else {
                       var name = wx.getStorageSync('name')
                       if (name) {
@@ -164,7 +164,7 @@ Page({
                 })
               },
               fail() {
-                nav.message('未连接WiFi', 'error')
+                nav.message('未连接WiFi,一分钟后重试', 'error')
               }
             })
           },
@@ -175,7 +175,7 @@ Page({
       }
     })
   },
-    40000),
+    60000),
   onShow: function () {
     let _this = this
     const db = wx.cloud.database()
@@ -210,7 +210,7 @@ Page({
         })
       },
       fail() {
-        nav.admin("getUser")
+        nav.admin("getUser", "redirectTo")
       }
     })
     // 更新全局消息
@@ -226,7 +226,7 @@ Page({
           wx.getStorage({
             key: 'name',
             success(e) {
-              console.log(e.data,'测试');
+              console.log(e.data, '测试');
               // 检测是否更新数据
               db.collection('sXuns_addmsg').where({
                 msgid: re.data[re.data.length - 1]._id,
@@ -259,7 +259,7 @@ Page({
       current: res.detail.currentItemId
     })
   },
-  onLoad: async function () {
+  onLoad: function () {
     let _this = this
     wx.getStorage({
       key: 'openid',
@@ -267,70 +267,71 @@ Page({
         _this.setData({
           openid: res.data
         })
+        // 获取图表数据
+        try {
+          var resWin = wx.getSystemInfoSync();
+          _this.setData({
+            windowWidth: resWin.windowWidth
+          })
+          let event = async () => {
+            let numTemp = await _this.updateItem(res.data)
+            let num = [...numTemp]
+            console.log("num=", num);
+            // 数据展示
+            if (num.length != 0) {
+              _this.setData({
+                showCanvas: true
+              })
+              console.log('有了数据');
+              areaChart = new wxCharts({
+                canvasId: 'areaCanvas',
+                type: 'area',
+                categories: _this.data.cate,
+                animation: true,
+                series: [{
+                  name: '最近20天签到数据',
+                  data: num,
+                  format: function (val) {
+                    return val.toFixed(2);
+                  }
+                }],
+                yAxis: {
+                  title: '签到时间(/时)',
+                  format: function (val) {
+                    return val.toFixed(2);
+                  },
+                  min: 0,
+                  fontColor: '#8085e9',
+                  gridColor: '#8085e9',
+                  titleFontColor: '#f7a35c'
+                },
+                xAxis: {
+                  fontColor: '#7cb5ec',
+                  gridColor: '#7cb5ec'
+                },
+                extra: {
+                  legendTextColor: '#cb2431'
+                },
+                width: resWin.windowWidth,
+                height: 200
+              });
+            } else {
+              _this.setData({
+                showCanvas: false
+              })
+              console.log('暂无数据');
+            }
+          }
+
+          event()
+        } catch (e) {
+          console.error('getSystemInfoSync failed!', e);
+        }
       },
       fail() {
         nav.admin("login", "redirectTo");
       }
     })
-    try {
-      var res = wx.getSystemInfoSync();
-      _this.setData({
-        windowWidth: res.windowWidth
-      })
-      let numTemp = await _this.updateItem()
-      console.log(numTemp);
-      let num = [...numTemp]
-      console.log("num=", num);
-
-
-      // 数据展示
-      if (num.length != 0) {
-        _this.setData({
-          showCanvas: true
-        })
-        console.log('有了数据');
-
-        areaChart = new wxCharts({
-          canvasId: 'areaCanvas',
-          type: 'area',
-          categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'],
-          animation: true,
-          series: [{
-            name: '最近20天签到数据',
-            data: num,
-            format: function (val) {
-              return val.toFixed(2);
-            }
-          }],
-          yAxis: {
-            title: '签到时间(/时)',
-            format: function (val) {
-              return val.toFixed(2);
-            },
-            min: 0,
-            fontColor: '#8085e9',
-            gridColor: '#8085e9',
-            titleFontColor: '#f7a35c'
-          },
-          xAxis: {
-            fontColor: '#7cb5ec',
-            gridColor: '#7cb5ec'
-          },
-          extra: {
-            legendTextColor: '#cb2431'
-          },
-          width: res.windowWidth,
-          height: 200
-        });
-      } else {
-        _this.setData({
-          showCanvas: false
-        })
-        console.log('暂无数据');
-      }
-    } catch (e) {
-      console.error('getSystemInfoSync failed!', e);
-    }
   },
   copyTag: function () {
     let _this = this
@@ -386,17 +387,18 @@ Page({
     console.log(areaChart.getCurrentDataIndex(e));
     areaChart.showToolTip(e);
   },
-  updateItem: function () {
+  updateItem: function (openidValue) {
     let _this = this;
     const db = wx.cloud.database()
     let tempTime = []
     db.collection('sXuns_sign').where({
-      openid: _this.data.openid
+      openid: openidValue
     }).get({
       success(res) {
         for (let i = 0; i < res.data.length; i++) {
-          tempTime.push(parseInt(res.data[i].time.split(" ")[1].split(":")[0]))
+          tempTime.push(parseInt(res.data[i].time.split(" ")[1].split(":")[0]) + parseInt(res.data[i].time.split(" ")[1].split(":")[1]) * 0.01)
         }
+        console.log(tempTime);
       },
       fail(err) {
         console.log(err);
