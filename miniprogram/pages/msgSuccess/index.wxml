@@ -6,3 +6,4 @@
         </i-card>
     </view>
 </block>
+<i-load-more loading="{{ loadContent }}" />

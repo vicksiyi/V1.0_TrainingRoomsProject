@@ -5,15 +5,20 @@ Page({
    * 页面的初始数据
    */
   data: {
-    list: []
+    list: [],
+    loadContent: false
   },
   onShow: function () {
     let _this = this
+    _this.setData({
+      loadContent: true
+    })
     const db = wx.cloud.database()
     db.collection('sXuns_msg').get({
       success(res) {
         _this.setData({
-          list: res.data
+          list: res.data,
+          loadContent: false
         })
       }
     })

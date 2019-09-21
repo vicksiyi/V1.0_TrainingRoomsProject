@@ -66,9 +66,9 @@
         <view bindtap='copyTag' style='width:15%;'>
           <i-tag class="i-tags" name="复制" color="blue">复制</i-tag>
         </view>
-        <view bindtap='temp' style='width:15%;'>
+        <!-- <view bindtap='temp' style='width:15%;'>
           <i-tag class="i-tags" name="复制" color="blue">清缓存</i-tag>
-        </view>
+        </view> -->
       </view>
       <view slot="footer">可复制ID去申请管理员</view>
     </i-card>
