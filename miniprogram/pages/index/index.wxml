@@ -9,7 +9,7 @@
     <template is="tab2" data="{{notice,openid,load,visible2,actions2,notice2,showCanvas}}"></template>
   </swiper-item>
   <swiper-item item-id="remind">
-    <template is="tab3" data="{{name,submitList,windowHeight,noSubmitList}}"></template>
+    <template is="tab3" data="{{name,submitList,windowHeight,noSubmitList,loadContent,loadContent2}}"></template>
   </swiper-item>
   <swiper-item item-id="mine">
     <template is="tab4" data="{{openid,nickName,avatarUrl}}"></template>

@@ -6,9 +6,10 @@
                     {{item.name}}
                 </i-tag>
             </block>
+            <i-load-more loading="{{ loadContent }}" />
         </view>
     </i-card>
 </view>
 <view class="canvas-ec">
-    <canvas canvas-id="pieCanvas" class="canvas" style="height:300px" ></canvas>
+    <canvas canvas-id="pieCanvas" class="canvas" style="height:300px"></canvas>
 </view>

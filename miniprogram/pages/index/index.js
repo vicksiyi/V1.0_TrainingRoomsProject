@@ -25,7 +25,9 @@ Page({
     cate: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'],
     name: 0,
     submitList: [],
-    noSubmitList: []
+    noSubmitList: [],
+    loadContent: false,
+    loadContent2: false
   },
   handleChange: function (res) {
     let _this = this;
@@ -45,9 +47,14 @@ Page({
       }).get({
         success(res) {
           let tempList = []
+          _this.setData({
+            loadContent: true,
+            loadContent2: true
+          })
           for (let i = 0; i < res.data.length; i++) {
             tempList.push(res.data[i].msgid)
           }
+          console.log(tempList)
           // 已经查重完的列表
           let tempListImport = [...new Set(tempList)]
           // 已收到
@@ -56,9 +63,11 @@ Page({
           }).get({
             success(re) {
               _this.setData({
-                submitList: re.data.reverse()
+                submitList: re.data.reverse(),
+                loadContent: false
               })
               console.log(re.data)
+
             },
             fail(err) {
               console.log(err);
@@ -70,7 +79,8 @@ Page({
           }).get({
             success(re) {
               _this.setData({
-                noSubmitList: re.data
+                noSubmitList: re.data,
+                loadContent2: false
               })
             },
             fail(err) {

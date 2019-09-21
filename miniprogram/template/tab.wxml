@@ -29,7 +29,8 @@
     <!-- 未收到 -->
     <i-card title="未查看">
       <view slot="content">
-        <view class="person-content" style="height:{{(windowHeight -183)/2}}px;">
+        <!-- 加载... -->
+        <view class="person-content" style="height:{{(windowHeight -240)/2}}px;">
           <block wx:for="{{noSubmitList}}">
             <i-alert type="warning">
               {{item.time}}
@@ -37,9 +38,9 @@
             </i-alert>
           </block>
         </view>
+        <i-load-more loading="{{ loadContent }}" />
       </view>
     </i-card>
-    <i-divider color="#2d8cf0" lineColor="#2d8cf0">我们是有界限的...</i-divider>
     <!-- 已收到 -->
     <i-card title="已查看">
       <view slot="content">
@@ -51,6 +52,7 @@
             </i-alert>
           </block>
         </view>
+        <i-load-more loading="{{ loadContent2 }}" />
       </view>
     </i-card>
   </view>

@@ -1,3 +1,11 @@
-
-<button open-type="getUserInfo" bindgetuserinfo="getUser">授权</button>
+<section>
+    <view class="profile-content">
+        <view class="padding-image">
+            <image src="./images/logo.png"></image>
+        </view>
+        <h1>申请获得以下权限</h1>
+        <view style="font-size:0.8rem;">获得你的公开信息(昵称、头像、地区及性别)</view>
+        <button open-type="getUserInfo" bindgetuserinfo="getUser">授权</button>
+    </view>
+</section>
 <i-message id="message" />

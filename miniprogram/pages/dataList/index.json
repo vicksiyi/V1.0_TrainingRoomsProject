@@ -2,7 +2,8 @@
   "usingComponents": {
     "i-card": "../../dist/card/index",
     "i-avatar": "../../dist/avatar/index",
-    "i-tag": "../../dist/tag/index"
+    "i-tag": "../../dist/tag/index",
+    "i-load-more": "../../dist/load-more/index"
   },
   "navigationBarTitleText": "收到情况"
 }
